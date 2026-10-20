@@ -1,0 +1,451 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "Task Management API",
+  "dateExported": "2026-10-20T15:11:15.304+05:30",
+  "version": "1.1",
+  "folders": [],
+  "requests": [
+    {
+      "_id": "auth-register",
+      "name": "Register user (save returned token as {{token}})",
+      "url": "http://localhost:5000/api/auth/register",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mode": "json",
+        "json": "{\n  \"name\": \"Task User\",\n  \"email\": \"task-user@example.com\",\n  \"password\": \"change-this-password\"\n}"
+      },
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "auth-login",
+      "name": "Login (copy returned token to {{token}})",
+      "url": "http://localhost:5000/api/auth/login",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mode": "json",
+        "json": "{\n  \"email\": \"task-user@example.com\",\n  \"password\": \"change-this-password\"\n}"
+      },
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "create-valid-task",
+      "name": "Create a valid task",
+      "url": "http://localhost:5000/api/tasks",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "body": {
+        "mode": "json",
+        "json": "{\n  \"title\": \"Complete assignment\",\n  \"description\": \"Finish the backend task management API\",\n  \"status\": \"pending\",\n  \"priority\": \"high\",\n  \"dueDate\": \"2026-10-25\"\n}"
+      },
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "create-missing-title",
+      "name": "Create task with missing title",
+      "url": "http://localhost:5000/api/tasks",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "body": {
+        "mode": "json",
+        "json": "{\n  \"description\": \"Missing required title\"\n}"
+      },
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "get-all-tasks",
+      "name": "Retrieve all tasks",
+      "url": "http://localhost:5000/api/tasks",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "filter-tasks-by-status-priority",
+      "name": "Filter tasks by status and priority",
+      "url": "http://localhost:5000/api/tasks?status=in_progress&priority=high",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "filter-tasks-by-project-and-due-date",
+      "name": "Filter tasks by project and due date",
+      "url": "http://localhost:5000/api/tasks?projectId={{projectId}}&dueDate=2026-10-25",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "search-tasks-by-title",
+      "name": "Search tasks by title",
+      "url": "http://localhost:5000/api/tasks?search=assignment",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "report-task-status-counts",
+      "name": "Get report counts grouped by task status",
+      "url": "http://localhost:5000/api/reports/tasks",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "pagination-test",
+      "name": "Test pagination",
+      "url": "http://localhost:5000/api/tasks?page=1&limit=1",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "get-task-by-valid-id",
+      "name": "Retrieve a task by valid ID",
+      "url": "http://localhost:5000/api/tasks/{{taskId}}",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "get-task-by-invalid-id",
+      "name": "Retrieve a task using an invalid ID",
+      "url": "http://localhost:5000/api/tasks/notanid",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "update-existing-task",
+      "name": "Update an existing task",
+      "url": "http://localhost:5000/api/tasks/{{taskId}}",
+      "method": "PUT",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "body": {
+        "mode": "json",
+        "json": "{\n  \"title\": \"Updated assignment\",\n  \"description\": \"Updated task details\",\n  \"status\": \"in_progress\",\n  \"priority\": \"medium\",\n  \"dueDate\": \"2026-10-30\"\n}"
+      },
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "update-nonexistent-task",
+      "name": "Update a nonexistent task",
+      "url": "http://localhost:5000/api/tasks/64d4f9f6d9d62a1b23456789",
+      "method": "PUT",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "body": {
+        "mode": "json",
+        "json": "{\n  \"title\": \"Ghost task\"\n}"
+      },
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "delete-existing-task",
+      "name": "Delete an existing task",
+      "url": "http://localhost:5000/api/tasks/{{taskId}}",
+      "method": "DELETE",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "retrieve-deleted-task",
+      "name": "Retrieve a deleted task",
+      "url": "http://localhost:5000/api/tasks/{{taskId}}",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "invalid-status-value",
+      "name": "Test invalid status value",
+      "url": "http://localhost:5000/api/tasks?status=invalid",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "invalid-priority-value",
+      "name": "Test invalid priority value",
+      "url": "http://localhost:5000/api/tasks?priority=invalid",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "create-valid-project",
+      "name": "Create a valid project",
+      "url": "http://localhost:5000/api/projects",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "body": {
+        "mode": "json",
+        "json": "{\n  \"name\": \"Website redesign\",\n  \"description\": \"Plan and deliver the public website refresh\"\n}"
+      },
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "create-project-missing-name",
+      "name": "Create project without required name",
+      "url": "http://localhost:5000/api/projects",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "body": {
+        "mode": "json",
+        "json": "{\n  \"description\": \"Missing project name\"\n}"
+      },
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "create-project-with-unaccepted-owner",
+      "name": "Reject client-supplied project owner",
+      "url": "http://localhost:5000/api/projects",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "body": {
+        "mode": "json",
+        "json": "{\n  \"name\": \"Spoofed ownership\",\n  \"owner\": \"64d4f9f6d9d62a1b23456789\"\n}"
+      },
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "list-projects",
+      "name": "List projects with pagination",
+      "url": "http://localhost:5000/api/projects?page=1&limit=10",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "list-projects-invalid-page",
+      "name": "Reject invalid project page",
+      "url": "http://localhost:5000/api/projects?page=0",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "get-project-by-id",
+      "name": "Get project by ID",
+      "url": "http://localhost:5000/api/projects/{{projectId}}",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "get-project-invalid-id",
+      "name": "Reject invalid project ID",
+      "url": "http://localhost:5000/api/projects/notanid",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "delete-project-with-linked-task",
+      "name": "Block project deletion while tasks are linked",
+      "url": "http://localhost:5000/api/projects/{{projectId}}",
+      "method": "DELETE",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    },
+    {
+      "_id": "delete-project",
+      "name": "Delete an unlinked project",
+      "url": "http://localhost:5000/api/projects/{{projectId}}",
+      "method": "DELETE",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "tests": [],
+      "response": []
+    }
+  ]
+}
