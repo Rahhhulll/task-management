@@ -1,0 +1,81 @@
+<main class="auth-page">
+  <section class="auth-card" aria-labelledby="auth-heading">
+    <div class="auth-brand" aria-label="Daymark">daymark</div>
+    <p class="auth-eyebrow">YOUR DAY, IN FOCUS</p>
+    <h1 id="auth-heading">
+      {{ mode() === 'login' ? 'Welcome back' : 'Create your account' }}
+    </h1>
+    <p class="auth-copy">
+      {{
+        mode() === 'login'
+          ? 'Sign in to continue to your tasks.'
+          : 'Sign up to start organizing your tasks.'
+      }}
+    </p>
+
+    @if (sessionMessage) {
+      <p class="auth-message" role="alert">{{ sessionMessage }}</p>
+    }
+    @if (error()) {
+      <p class="auth-message" role="alert">{{ error() }}</p>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      @if (mode() === 'register') {
+        <label for="auth-name">Name</label>
+        <input
+          id="auth-name"
+          type="text"
+          formControlName="name"
+          autocomplete="name"
+          required
+        />
+        @if (form.controls.name.touched && form.controls.name.invalid) {
+          <span class="field-error">Enter your name.</span>
+        }
+      }
+
+      <label for="auth-email">Email</label>
+      <input
+        id="auth-email"
+        type="email"
+        formControlName="email"
+        autocomplete="email"
+        required
+      />
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <span class="field-error">Enter a valid email address.</span>
+      }
+
+      <label for="auth-password">Password</label>
+      <input
+        id="auth-password"
+        type="password"
+        formControlName="password"
+        [attr.autocomplete]="mode() === 'login' ? 'current-password' : 'new-password'"
+        required
+        minlength="8"
+      />
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+        <span class="field-error">Password must be at least 8 characters.</span>
+      }
+
+      <button class="auth-submit" type="submit" [disabled]="submitting()">
+        {{
+          submitting()
+            ? 'Please wait...'
+            : mode() === 'login'
+              ? 'Sign in'
+              : 'Create account'
+        }}
+      </button>
+    </form>
+
+    <p class="auth-switch">
+      {{ mode() === 'login' ? 'New to Daymark?' : 'Already have an account?' }}
+      <button type="button" (click)="toggleMode()">
+        {{ mode() === 'login' ? 'Create an account' : 'Sign in' }}
+      </button>
+    </p>
+  </section>
+</main>
