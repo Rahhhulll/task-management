@@ -1,16 +1,16 @@
 const notFoundHandler = (req, res, next) => {
-  const error = new Error("Route not found");
+  const error = new Error(`Route not found: ${req.method} ${req.originalUrl}`);
   error.statusCode = 404;
   next(error);
 };
 
 const errorHandler = (error, req, res, next) => {
   let statusCode = error.statusCode || error.status || 500;
-  let message = error.message;
+  let message = error.message || "Internal server error";
 
   if (error.name === "ValidationError") {
     statusCode = 400;
-    message = Object.values(error.errors)
+    message = Object.values(error.errors || {})
       .map((validationError) => validationError.message)
       .join(", ");
   } else if (error.code === 11000) {
@@ -28,15 +28,31 @@ const errorHandler = (error, req, res, next) => {
     statusCode = 500;
   }
 
+  // Log the actual error on the server for debugging.
   if (statusCode >= 500) {
+    console.error("Unexpected server error:", {
+      method: req.method,
+      url: req.originalUrl,
+      name: error.name,
+      message: error.message,
+      stack: error.stack,
+    });
+
+    // Do not expose internal error details to the client.
     message = "Internal server error";
-    console.error("Unexpected server error");
   }
 
-  res.status(statusCode).json({
+  if (res.headersSent) {
+    return next(error);
+  }
+
+  return res.status(statusCode).json({
     success: false,
     message: message || "Internal server error",
   });
 };
 
-module.exports = { notFoundHandler, errorHandler };
+module.exports = {
+  notFoundHandler,
+  errorHandler,
+};
