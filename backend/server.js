@@ -64,10 +64,10 @@ const startServer = async () => {
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });
-  } catch (error) {
-    console.error("MongoDB connection failed. Check MONGO_URI and Atlas access.");
-    process.exitCode = 1;
-  }
+} catch (error) {
+  console.error("MongoDB connection failed:", error.message);
+  process.exitCode = 1;
+}
 };
 
 startServer();
